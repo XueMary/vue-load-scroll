@@ -5,7 +5,14 @@
   > 
     <div class="content">
       <div class="header" v-if="$listeners.downScroll">
-        <Load :load="headerLoad"></Load>
+        <Load 
+        :load="headerLoad"
+        :color="iconColor"
+        :text="headerText"
+        :startIcon="headerStartIcon"
+        :loadIcon="headerLoadIcon"
+        >
+        </Load>
       </div>
 
       <div :style="{'min-height':contentHeight}">
@@ -16,6 +23,10 @@
         <Load 
           v-if="$listeners.upScroll" 
           :load="footerLoad" 
+          :color="iconColor"
+          :text="footerText"
+          :startIcon="footerStartIcon"
+          :loadIcon="footerLoadIcon"
           >
         </Load>
       </div>
@@ -25,10 +36,10 @@
 
 <script>
 import BScroll from "better-scroll";
-import Load from './load'
+import Load from "./load";
 let context = null;
 export default {
-  components:{
+  components: {
     Load
   },
   // event {
@@ -40,13 +51,21 @@ export default {
       type: String,
       default: "#42b983"
     },
-    headerLoadText: {
+    headerText: {
       type: String,
       default: ""
     },
-    footerLoadText: {
+    footerText: {
       type: String,
-      default: ""
+      default: "-----我是有底线的-----"
+    },
+    startIcon: {
+      type: [String, Array],
+      default: null
+    },
+    loadIcon: {
+      type: [String, Array],
+      default: null
     },
     options: {
       type: Object,
@@ -58,12 +77,38 @@ export default {
   data() {
     return {
       headerLoad: "idle", // idle  start  end
+      headerStartIcon: "",
+      headerLoadIcon: "",
+
       footerLoad: "idle",
+      footerStartIcon: "",
+      footerLoadIcon: "",
+
       contentHeight: 0
     };
   },
   computed: {},
+  watch: {
+    startIcon(value) {
+      this.updataLoadUrl("StartIcon", value);
+    },
+    loadIcon(value) {
+      this.updataLoadUrl("LoadIcon", value);
+    }
+  },
   methods: {
+    // updata load icon url
+    updataLoadUrl(type, value) {
+      let header = 'header' + type
+      let footer = 'footer' + type
+      if (typeof value === "string") {
+        this.header = this.footer = value;
+      } else if (value instanceof Array) {
+        this.header = value[1];
+        this.footer = value[1];
+      }
+    },
+
     bindHandle() {
       let listeners = this.$listeners;
       for (let even in listeners) {
@@ -127,14 +172,14 @@ export default {
       let end = () => {
         this.loadEnd("header");
       };
-      this.$emit('downScroll', end)
+      this.$emit("downScroll", end);
     },
     footerHandle() {
       this.footerLoad = "start";
       let end = () => {
         this.loadEnd("footer");
       };
-      this.$emit('upScroll', end)
+      this.$emit("upScroll", end);
     }
   },
   mounted() {
