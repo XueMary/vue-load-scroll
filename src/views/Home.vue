@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    下拉加载
     <Scroll 
       class="xue-hei"
       @downScroll="scroll"
@@ -24,19 +25,14 @@ export default {
     }
   },
   methods:{
-    scroll(resove){
+    scroll(end){
+      this.nais.length = 0
       setTimeout(()=>{
-        let i = this.nais[this.nais.length-1] + 1
-        
-        if(!i){
-          i = 0
-        }
-        let n = i+100
-        for(i; i<n;i++)
+        for(let i= 0; i<100;i++)
         {
           this.nais.push(i)
         }
-        resove()
+        end() // 事件完成后调用
       },1000)
     }
   },

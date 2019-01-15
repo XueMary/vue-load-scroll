@@ -10,11 +10,13 @@
             <i class="iconfont icon-reload"></i>
           </div>
         </slot>
-        <slot name="header-load" v-if="headerLoad === 'start'">
+        
+        <slot name="header-load"  v-if="headerLoad === 'start'">
           <div class="header-load">
             <i class="iconfont icon-loading1"></i>
           </div>
         </slot>
+        
         <p v-if="headerLoad === 'end'">{{headerLoadText}}</p>
       </div>
 
@@ -23,9 +25,19 @@
       </div>
 
       <div class="footer" v-if="$listeners.downScroll || $listeners.upScroll">
-        <slot name="footer">
-
+        <slot name="footer" v-if="footerLoad === 'idle'">
+          <div class="footer-content" :style="{background:iconColor}">
+            <i class="iconfont icon-reload"></i>
+          </div>
         </slot>
+        
+        <slot name="footer-load"  v-if="footerLoad === 'start'">
+          <div class="footer-load">
+            <i class="iconfont icon-loading1"></i>
+          </div>
+        </slot>
+        
+        <p v-if="footerLoad === 'end'">{{footerLoadText}}</p>
       </div>
     </div>
   </div>
@@ -36,8 +48,8 @@ import BScroll from "better-scroll";
 let context = null;
 export default {
   // event {
-    // downScroll,
-    // upScroll
+  // downScroll,
+  // upScroll
   // }
   props: {
     iconColor: {
@@ -66,14 +78,16 @@ export default {
       contentHeight: 0
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     bindHandle() {
       let listeners = this.$listeners;
       for (let even in listeners) {
         context.on(even, listeners[even]);
       }
+
+      context.on("pullingDown", this.headerHandle);
+      context.on("pullingUp", this.footerHandle);
     },
     initScroll() {
       let contextOptions = {
@@ -83,46 +97,66 @@ export default {
         pullUpLoad: false,
         mouseWheel: true
       };
-      contextOptions.pullDownRefresh = true;
-      contextOptions.pullUpLoad = this.upScroll ? true : false;
+      contextOptions.pullDownRefresh = this.$listeners.downScroll
+        ? true
+        : false;
+      contextOptions.pullUpLoad = this.$listeners.upScroll
+        ? this.options.pullUpLoad || {
+            threshold: 100
+          }
+        : false;
+
       context = new BScroll(this.$refs.wrapper, {
         ...contextOptions,
         ...this.options
       });
     },
-    loadEnd() {
+    loadEnd(type) {
       let time = 0;
-      if (this.headerLoadText) {
-        this.headerLoad = "end";
+      let load = type + "Load";
+
+      if (this[load + "Text"]) {
+        this[load] = "end";
         time = 500;
       }
 
       setTimeout(() => {
-        context.finishPullDown();
+        if (type === "header") {
+          context.finishPullDown();
+        } else if (type === "footer") {
+          context.finishPullUp();
+        }
+
         context.refresh();
-        this.headerLoad = "idle";
+        this[load] = "idle";
       }, time);
     },
     computContentHeight() {
-      let height = 0
+      let height = 0;
       if (this.$refs.wrapper) {
         height = this.$refs.wrapper.clientHeight + "px";
       }
-      this.contentHeight = height
+      this.contentHeight = height;
+    },
+    headerHandle() {
+      this.headerLoad = "start";
+      let end = () => {
+        this.loadEnd("header");
+      };
+      this.$emit('downScroll', end)
+    },
+    footerHandle() {
+      this.footerLoad = "start";
+      let end = () => {
+        this.loadEnd("footer");
+      };
+      this.$emit('upScroll', end)
     }
   },
   mounted() {
     this.initScroll();
     this.bindHandle();
-
-    this.computContentHeight()
-
-    context.on("pullingDown", () => {
-      this.headerLoad = "start";
-      this.$listeners.downScroll(this.loadEnd);
-    });
-
-    
+    this.computContentHeight();
   }
 };
 </script>
@@ -169,9 +203,14 @@ export default {
   font-size: 24px;
 }
 
-.header-load {
+.header-load,.footer-load {
   animation: rotate 1s infinite linear;
   -webkit-animation: rotate 1s infinite linear;
+}
+
+.footer-content,.footer-load {
+  line-height: 50px;
+  text-align: center;
 }
 
 @keyframes rotate {
