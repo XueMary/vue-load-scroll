@@ -5,19 +5,7 @@
   > 
     <div class="content">
       <div class="header" v-if="$listeners.downScroll">
-        <slot name="header" v-if="headerLoad === 'idle'">
-          <div class="header-content" :style="{background:iconColor}">
-            <i class="iconfont icon-reload"></i>
-          </div>
-        </slot>
-        
-        <slot name="header-load"  v-if="headerLoad === 'start'">
-          <div class="header-load">
-            <i class="iconfont icon-loading1"></i>
-          </div>
-        </slot>
-        
-        <p v-if="headerLoad === 'end'">{{headerLoadText}}</p>
+        <Load :load="headerLoad"></Load>
       </div>
 
       <div :style="{'min-height':contentHeight}">
@@ -25,19 +13,11 @@
       </div>
 
       <div class="footer" v-if="$listeners.downScroll || $listeners.upScroll">
-        <slot name="footer" v-if="footerLoad === 'idle'">
-          <div class="footer-content" :style="{background:iconColor}">
-            <i class="iconfont icon-reload"></i>
-          </div>
-        </slot>
-        
-        <slot name="footer-load"  v-if="footerLoad === 'start'">
-          <div class="footer-load">
-            <i class="iconfont icon-loading1"></i>
-          </div>
-        </slot>
-        
-        <p v-if="footerLoad === 'end'">{{footerLoadText}}</p>
+        <Load 
+          v-if="$listeners.upScroll" 
+          :load="footerLoad" 
+          >
+        </Load>
       </div>
     </div>
   </div>
@@ -45,8 +25,12 @@
 
 <script>
 import BScroll from "better-scroll";
+import Load from './load'
 let context = null;
 export default {
+  components:{
+    Load
+  },
   // event {
   // downScroll,
   // upScroll
@@ -162,7 +146,6 @@ export default {
 </script>
 
 <style>
-@import url("./font/iconfont.css");
 .scroll-warpper {
   height: 100%;
   width: 100%;
@@ -174,10 +157,6 @@ export default {
   min-height: 100%;
 }
 
-.footer {
-  height: 50px;
-}
-
 .header {
   position: absolute;
   left: 0;
@@ -187,47 +166,7 @@ export default {
   margin: auto;
 }
 
-.header-content {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  display: inline-block;
-}
-
-.icon-reload {
-  font-size: 18px;
-  color: white;
-}
-.icon-loading1 {
-  font-size: 24px;
-}
-
-.header-load,.footer-load {
-  animation: rotate 1s infinite linear;
-  -webkit-animation: rotate 1s infinite linear;
-}
-
-.footer-content,.footer-load {
-  line-height: 50px;
-  text-align: center;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@-webkit-keyframes rotate /* Safari 和 Chrome */ {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.footer {
+  height: 50px;
 }
 </style>
