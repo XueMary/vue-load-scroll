@@ -7,8 +7,10 @@
       <div class="header" v-if="$listeners.downScroll">
         <Load 
         :load="headerLoad"
-        :color="iconColor"
-        :text="headerText"
+        :color="headericonColor"
+        :bgColor="headericonBgColor"
+        :text="headerLoadText"
+        :endText="headerLoadEndText"
         :startIcon="headerStartIcon"
         :loadIcon="headerLoadIcon"
         >
@@ -23,8 +25,10 @@
         <Load 
           v-if="$listeners.upScroll" 
           :load="footerLoad" 
-          :color="iconColor"
-          :text="footerText"
+          :color="footericonColor"
+          :bgColor="footericonBgColor"
+          :text="footerLoadText"
+          :endText="footerLoadEndText"
           :startIcon="footerStartIcon"
           :loadIcon="footerLoadIcon"
           >
@@ -38,35 +42,39 @@
 import BScroll from "better-scroll";
 import Load from "./load";
 let context = null;
+
+function watchHandle(name) {
+  return {
+    handler(value) {
+      this.updataLoadUrl(name, value);
+    },
+    immediate: true
+  };
+}
+function propsHandle(value) {
+  if (typeof value === 'object') {
+    return {
+      type: [String, Array],
+      default: ()=>value,
+    };
+  } else {
+    return {
+      type: [String, Array],
+      default: value,
+    };
+  }
+}
 export default {
   components: {
     Load
   },
-  // event {
-  // downScroll,
-  // upScroll
-  // }
   props: {
-    iconColor: {
-      type: String,
-      default: "#42b983"
-    },
-    headerText: {
-      type: String,
-      default: ""
-    },
-    footerText: {
-      type: String,
-      default: "-----我是有底线的-----"
-    },
-    startIcon: {
-      type: [String, Array],
-      default: null
-    },
-    loadIcon: {
-      type: [String, Array],
-      default: null
-    },
+    iconColor: propsHandle("black"),
+    iconBgColor: propsHandle("#42b983"),
+    startIcon: propsHandle(null),
+    loadIcon: propsHandle(null),
+    loadText: propsHandle(["", "努力加载中"]),
+    loadEndText: propsHandle(null),
     options: {
       type: Object,
       default: () => {
@@ -79,33 +87,40 @@ export default {
       headerLoad: "idle", // idle  start  end
       headerStartIcon: "",
       headerLoadIcon: "",
+      headericonColor: "",
+      headericonBgColor: "",
+      headerLoadText: "",
+      headerLoadEndText: "",
 
       footerLoad: "idle",
       footerStartIcon: "",
       footerLoadIcon: "",
+      footericonColor: "",
+      footericonBgColor: "",
+      footerLoadText: "",
+      footerLoadEndText: "",
 
       contentHeight: 0
     };
   },
-  computed: {},
   watch: {
-    startIcon(value) {
-      this.updataLoadUrl("StartIcon", value);
-    },
-    loadIcon(value) {
-      this.updataLoadUrl("LoadIcon", value);
-    }
+    iconColor: watchHandle("iconColor"),
+    iconBgColor: watchHandle("iconBgColor"),
+    startIcon: watchHandle("StartIcon"),
+    loadIcon: watchHandle("LoadIcon"),
+    loadText: watchHandle("LoadText"),
+    loadEndText: watchHandle("LoadEndText")
   },
   methods: {
     // updata load icon url
     updataLoadUrl(type, value) {
-      let header = 'header' + type
-      let footer = 'footer' + type
+      let header = "header" + type;
+      let footer = "footer" + type;
       if (typeof value === "string") {
-        this.header = this.footer = value;
+        this[header] = this[footer] = value;
       } else if (value instanceof Array) {
-        this.header = value[1];
-        this.footer = value[1];
+        this[header] = value[0];
+        this[footer] = value[1];
       }
     },
 

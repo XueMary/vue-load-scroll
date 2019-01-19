@@ -1,25 +1,26 @@
 <template>
-  <div class="idle">
-    <slot name="idle" v-if="load === 'idle'">
+  <div class="scroll-idle">
+    <div v-show="load === 'idle'">
       <div v-if="startIcon">
         <img src="startIcon"/>
       </div>
       
-      <div v-else class="idle-content" :style="{background:color}">
+      <div v-else class="scroll-content" :style="{background:bgColor}">
         <i class="iconfont icon-reload"></i>
       </div>
-    </slot>
+    </div>
     
-    <slot name="load"  v-if="load === 'start'">
-      <div v-if="loadIcon" class="load">
+    <div v-show="load === 'start'" class="scroll-start">
+      <div v-if="loadIcon" class="scroll-load">
         <img src="loadIcon"/>
       </div>
-      <div v-else class="load">
-        <i class="iconfont icon-loading1"></i>
+      <div v-else class="scroll-load">
+        <i class="iconfont icon-loading1" :style="{color}"></i>
       </div>
-    </slot>
+      {{text}}
+    </div>
     
-    <p v-if="load === 'end'">{{text}}</p>
+    <p v-show="load === 'end'">{{endText}}</p>
   </div>
 </template>
 
@@ -36,6 +37,10 @@ export default {
     },
     color:{
       type: String,
+      default: 'black'
+    },
+    bgColor:{
+      type: String,
       default: '#42b983'
     },
     startIcon:{
@@ -46,6 +51,10 @@ export default {
       type: String,
       default: ''
     },
+    endText:{
+      type: String,
+      default: ''
+    },
   }
 }
 </script>
@@ -53,11 +62,11 @@ export default {
 <style>
 @import url("./font/iconfont.css");
 
-.idle{
+.scroll-idle{
   text-align: center;
 }
 
-.idle-content {
+.scroll-content {
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -65,16 +74,18 @@ export default {
   display: inline-block;
 }
 
-.load {
+.scroll-content .icon-reload {
+  font-size: 18px;
+  color: white;
+}
+
+.scroll-load {
+  display: inline-block;
   animation: rotate 1s infinite linear;
   -webkit-animation: rotate 1s infinite linear;
 }
 
-.icon-reload {
-  font-size: 18px;
-  color: white;
-}
-.icon-loading1 {
+.scroll-load .icon-loading1 {
   font-size: 24px;
 }
 
