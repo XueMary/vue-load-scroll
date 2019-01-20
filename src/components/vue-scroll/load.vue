@@ -1,68 +1,56 @@
 <template>
   <div class="scroll-idle">
+    <!-- load start -->
     <div v-show="load === 'idle'">
-      <div v-if="startIcon">
-        <img src="startIcon"/>
+      <div v-if="startIcon" class="scroll-start-load">
+        <img :src="startIcon"/>
       </div>
       
-      <div v-else class="scroll-content" :style="{background:bgColor}">
+      <div v-else-if="startIcon !== false" class="scroll-content" :style="{background:bgColor}">
         <i class="iconfont icon-reload"></i>
       </div>
     </div>
     
+    <!-- loading -->
     <div v-show="load === 'start'" class="scroll-start">
       <div v-if="loadIcon" class="scroll-load">
-        <img src="loadIcon"/>
+        <img :src="loadIcon"/>
       </div>
-      <div v-else class="scroll-load">
-        <i class="iconfont icon-loading1" :style="{color}"></i>
+      <div v-else-if="loadIcon !== false" class="scroll-load">
+        <i class="iconfont icon-29" :style="{color}"></i>
       </div>
-      {{text}}
+      <span class="scroll-load-text scroll-text">{{text}}</span>
     </div>
     
-    <p v-show="load === 'end'">{{endText}}</p>
+    <!-- load end -->
+    <p v-show="load === 'end'" class="scroll-text">{{endText}}</p>
   </div>
 </template>
 
 <script>
-export default {
-  props:{
-    load:{
-      type: String,
-      default: 'idle'
-    },
-    text:{
-      type: String,
-      default: ''
-    },
-    color:{
-      type: String,
-      default: 'black'
-    },
-    bgColor:{
-      type: String,
-      default: '#42b983'
-    },
-    startIcon:{
-      type: String,
-      default: ''
-    },
-    loadIcon:{
-      type: String,
-      default: ''
-    },
-    endText:{
-      type: String,
-      default: ''
-    },
-  }
+function propsHandle(value = '') {
+  return {
+    type: [String, Boolean],
+    default: value
+  };
 }
+export default {
+  props: {
+    load: propsHandle('idle'),
+    text: propsHandle(),
+    color: propsHandle('black'),
+    bgColor: propsHandle("#42b983"),
+    startIcon: propsHandle(),
+    loadIcon: propsHandle(),
+    endText: propsHandle()
+  }
+};
 </script>
 
 <style>
 @import url("./font/iconfont.css");
 
-.scroll-idle{
+.scroll-idle {
   text-align: center;
 }
 
@@ -79,16 +67,34 @@ export default {
   color: white;
 }
 
+.scroll-start {
+  line-height: 24px;
+}
+
 .scroll-load {
   display: inline-block;
-  animation: rotate 1s infinite linear;
-  -webkit-animation: rotate 1s infinite linear;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  animation: rotate 2s infinite linear;
+  -webkit-animation: rotate 2s infinite linear;
 }
 
-.scroll-load .icon-loading1 {
-  font-size: 24px;
+.scroll-load i {
+  font-size: 20px;
+}
+.scroll-load img,
+.scroll-start-load img {
+  width: 20px;
+  height: 20px;
 }
 
+.scroll-load-text {
+  margin-left: 5px;
+}
+
+.scroll-text {
+  font-size: 14px;
+}
 
 @keyframes rotate {
   from {

@@ -26,7 +26,8 @@ export default {
   },
   data(){
     return{
-      nais: []
+      nais: [],
+      img: require('../assets/logo.png')
     }
   },
   methods:{

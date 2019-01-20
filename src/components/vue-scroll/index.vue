@@ -51,18 +51,15 @@ function watchHandle(name) {
     immediate: true
   };
 }
-function propsHandle(value) {
-  if (typeof value === 'object') {
-    return {
-      type: [String, Array],
-      default: ()=>value,
-    };
-  } else {
-    return {
-      type: [String, Array],
-      default: value,
-    };
+function propsHandle(value, type) {
+  let response = {
+    type: type || [String, Array],
+    default: value
+  };
+  if (typeof value === "object") {
+    response.default = () => value;
   }
+  return response;
 }
 export default {
   components: {
@@ -71,8 +68,8 @@ export default {
   props: {
     iconColor: propsHandle("black"),
     iconBgColor: propsHandle("#42b983"),
-    startIcon: propsHandle(null),
-    loadIcon: propsHandle(null),
+    startIcon: propsHandle(null, [String, Array, Boolean]),
+    loadIcon: propsHandle(null, [String, Array, Boolean]),
     loadText: propsHandle(["", "努力加载中"]),
     loadEndText: propsHandle(null),
     options: {
@@ -116,7 +113,7 @@ export default {
     updataLoadUrl(type, value) {
       let header = "header" + type;
       let footer = "footer" + type;
-      if (typeof value === "string") {
+      if (typeof value === "string" || typeof value === "boolean") {
         this[header] = this[footer] = value;
       } else if (value instanceof Array) {
         this[header] = value[0];
