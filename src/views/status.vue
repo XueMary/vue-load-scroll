@@ -1,13 +1,11 @@
 <template>
   <div class="home">
-    参数更改
+    状态
     <Scroll 
       class="xue-hei"
-      @upScroll="upScroll"
-      @downScroll="downScroll"
-      :iconColor="['red','blue']"
-      :iconBgColor="['black', 'red']"
-      loadText="正在加载......"
+      @downScroll="scroll"
+      :length='nais.length'
+      :emptyIcon="emptyIcon"
     >
       <ul>
         <li v-for="item in nais" :key="item">{{item}}</li>
@@ -26,22 +24,17 @@ export default {
   data(){
     return{
       nais: [],
-      img: require('../assets/logo.png')
+      emptyIcon: require('../assets/logo.png')
     }
   },
   methods:{
-    downScroll(end){
+    scroll(end){
       this.nais.length = 0
       setTimeout(()=>{
-        for(let i= 0; i<100;i++)
-        {
-          this.nais.push(i)
-        }
-        end() // 事件完成后调用
-      },1000)
-    },
-    upScroll(end){
-      setTimeout(()=>{
+        // for(let i= 0; i<100;i++)
+        // {
+        //   this.nais.push(i)
+        // }
         end() // 事件完成后调用
       },1000)
     }
@@ -51,6 +44,7 @@ export default {
 </script>
 <style>
 .xue-hei{
-  height: 150px;
+  height: 500px;
 }
 </style>
+

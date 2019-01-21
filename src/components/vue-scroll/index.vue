@@ -3,15 +3,14 @@
     ref="wrapper" 
     class="scroll-warpper"
   > 
-    <div class="content">
-      <div class="header" v-if="$listeners.downScroll">
+    <div class="scroll-content">
+      <div class="scroll-header" v-if="$listeners.downScroll">
         <Load 
         :load="headerLoad"
-        :color="headericonColor"
-        :bgColor="headericonBgColor"
+        :bgColor="iconBgColor"
         :text="headerLoadText"
         :endText="headerLoadEndText"
-        :startIcon="headerStartIcon"
+        :startIcon="startIcon"
         :loadIcon="headerLoadIcon"
         >
         </Load>
@@ -19,18 +18,23 @@
 
       <div :style="{'min-height':contentHeight}">
         <slot></slot>
+
+        <div v-if="isEmpty">
+          <div v-if="emptyIcon" class="scroll-emptyIcon">
+            <img :src="emptyIcon"/>
+          </div>
+          <p v-if="!isData">{{emptyText}}</p>
+        </div>
+        
       </div>
 
-      <div class="footer" v-if="$listeners.downScroll || $listeners.upScroll">
+      <div class="scroll-footer" v-if="$listeners.upScroll">
         <Load 
-          v-if="$listeners.upScroll" 
           :load="footerLoad" 
-          :color="footericonColor"
-          :bgColor="footericonBgColor"
           :text="footerLoadText"
           :endText="footerLoadEndText"
-          :startIcon="footerStartIcon"
           :loadIcon="footerLoadIcon"
+          type='footer'
           >
         </Load>
       </div>
@@ -41,6 +45,7 @@
 <script>
 import BScroll from "better-scroll";
 import Load from "./load";
+import LoadIcon from './loadIcon'
 let context = null;
 
 function watchHandle(name) {
@@ -51,10 +56,11 @@ function watchHandle(name) {
     immediate: true
   };
 }
-function propsHandle(value, type) {
+function propsHandle(value, type, required) {
   let response = {
     type: type || [String, Array],
-    default: value
+    default: value,
+    required: required || false
   };
   if (typeof value === "object") {
     response.default = () => value;
@@ -63,15 +69,19 @@ function propsHandle(value, type) {
 }
 export default {
   components: {
-    Load
+    Load,
+    LoadIcon
   },
   props: {
-    iconColor: propsHandle("black"),
-    iconBgColor: propsHandle("#42b983"),
-    startIcon: propsHandle(null, [String, Array, Boolean]),
+    length: propsHandle(null, Number, true),
+    iconBgColor: propsHandle("#42b983", String),
+    startIcon: propsHandle(null, [String, Boolean]),
     loadIcon: propsHandle(null, [String, Array, Boolean]),
     loadText: propsHandle(["", "努力加载中"]),
     loadEndText: propsHandle(null),
+    emptyText: propsHandle('暂无数据可用', String),
+    emptyIcon: propsHandle(null, String),
+    isEmpty: propsHandle(true, Boolean),
     options: {
       type: Object,
       default: () => {
@@ -84,29 +94,27 @@ export default {
       headerLoad: "idle", // idle  start  end
       headerStartIcon: "",
       headerLoadIcon: "",
-      headericonColor: "",
-      headericonBgColor: "",
       headerLoadText: "",
       headerLoadEndText: "",
 
       footerLoad: "idle",
       footerStartIcon: "",
       footerLoadIcon: "",
-      footericonColor: "",
-      footericonBgColor: "",
-      footerLoadText: "",
+      footerLoadText: "正在加载......",
       footerLoadEndText: "",
 
-      contentHeight: 0
+      contentHeight: 0,
     };
   },
+  computed: {
+    isData () {
+      return this.length !== 0
+    }
+  },
   watch: {
-    iconColor: watchHandle("iconColor"),
-    iconBgColor: watchHandle("iconBgColor"),
-    startIcon: watchHandle("StartIcon"),
     loadIcon: watchHandle("LoadIcon"),
     loadText: watchHandle("LoadText"),
-    loadEndText: watchHandle("LoadEndText")
+    loadEndText: watchHandle("LoadEndText"),
   },
   methods: {
     // updata load icon url
@@ -169,7 +177,9 @@ export default {
         }
 
         context.refresh();
-        this[load] = "idle";
+        setTimeout(() => {
+          this[load] = "idle";
+        }, time);
       }, time);
     },
     computContentHeight() {
@@ -198,6 +208,8 @@ export default {
     this.initScroll();
     this.bindHandle();
     this.computContentHeight();
+
+    this.headerHandle()
   }
 };
 </script>
@@ -209,21 +221,29 @@ export default {
   overflow: hidden;
 }
 
-.content {
+.scroll-content {
   position: relative;
-  min-height: 100%;
+  min-height: 100.1%;
 }
 
-.header {
+.scroll-content .scroll-upScroll{
+  height: 10px;
+}
+
+.scroll-header {
   position: absolute;
   left: 0;
   top: -50px;
   right: 0;
-  bottom: 0;
   margin: auto;
 }
 
-.footer {
+.scroll-footer {
   height: 50px;
+}
+
+.scroll-emptyIcon img{
+  width: 30%;
+  max-width: 200px;
 }
 </style>

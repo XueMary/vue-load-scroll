@@ -1,40 +1,42 @@
 <template>
-  <div class="scroll-idle">
+  <div class="scroll-com-idle">
     <!-- load start -->
-    <div v-show="load === 'idle'">
-      <div v-if="startIcon" class="scroll-start-load">
+    <div v-show="load === 'idle' && type !== 'footer'">
+      <div v-if="startIcon" class="scroll-com-start-load">
         <img :src="startIcon"/>
       </div>
       
-      <div v-else-if="startIcon !== false" class="scroll-content" :style="{background:bgColor}">
+      <div v-else-if="startIcon !== false" class="scroll-com-content" :style="{background:bgColor}">
         <i class="iconfont icon-reload"></i>
       </div>
     </div>
     
     <!-- loading -->
-    <div v-show="load === 'start'" class="scroll-start">
-      <div v-if="loadIcon" class="scroll-load">
-        <img :src="loadIcon"/>
-      </div>
-      <div v-else-if="loadIcon !== false" class="scroll-load">
-        <i class="iconfont icon-29" :style="{color}"></i>
-      </div>
-      <span class="scroll-load-text scroll-text">{{text}}</span>
-    </div>
+    <Loading
+      :load="load"
+      :text="text"
+      :color="color"
+      :loadIcon="loadIcon"
+    />
     
     <!-- load end -->
-    <p v-show="load === 'end'" class="scroll-text">{{endText}}</p>
+    <p v-show="load === 'end'" class="scroll-com-text">{{endText}}</p>
   </div>
 </template>
 
 <script>
-function propsHandle(value = '') {
+function propsHandle(value,type) {
   return {
-    type: [String, Boolean],
-    default: value
+    type: type || [String, Boolean],
+    default: value || ''
   };
 }
+
+import Loading from './loading'
 export default {
+  components:{
+    Loading
+  },
   props: {
     load: propsHandle('idle'),
     text: propsHandle(),
@@ -42,7 +44,8 @@ export default {
     bgColor: propsHandle("#42b983"),
     startIcon: propsHandle(),
     loadIcon: propsHandle(),
-    endText: propsHandle()
+    endText: propsHandle(),
+    type: propsHandle(null, String),
   }
 };
 </script>
@@ -50,11 +53,11 @@ export default {
 <style>
 @import url("./font/iconfont.css");
 
-.scroll-idle {
+.scroll-com-idle {
   text-align: center;
 }
 
-.scroll-content {
+.scroll-com-content {
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -62,55 +65,14 @@ export default {
   display: inline-block;
 }
 
-.scroll-content .icon-reload {
+.scroll-com-content .icon-reload {
   font-size: 18px;
   color: white;
 }
 
-.scroll-start {
-  line-height: 24px;
-}
-
-.scroll-load {
-  display: inline-block;
-  transform-origin: center center;
-  -webkit-transform-origin: center center;
-  animation: rotate 2s infinite linear;
-  -webkit-animation: rotate 2s infinite linear;
-}
-
-.scroll-load i {
-  font-size: 20px;
-}
-.scroll-load img,
-.scroll-start-load img {
-  width: 20px;
-  height: 20px;
-}
-
-.scroll-load-text {
-  margin-left: 5px;
-}
-
-.scroll-text {
+.scroll-com-text {
   font-size: 14px;
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@-webkit-keyframes rotate /* Safari 和 Chrome */ {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>
