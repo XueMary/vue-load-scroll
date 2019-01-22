@@ -57,13 +57,15 @@ export default {
 ## 常用事件和参数
 
 | event      |    type     | explain  |
-| :--------  | :--------:  |  :------------: |
+| :--------  | :--------:  |  :------------ |
 | downScroll |   function  | 下拉加载事件 |
 | upScroll   |   function  | 上拉加载事件 |
 
 
+
+
 | parameter  |    type        |  required  | explain  |
-| :--------  | :------------: | :--------: |  :------------: |
+| :--------  | :------------: | :--------: |  :------------ |
 | options    |   object       |    false   | 初始化参数，支持所有better-scroll事件和参数  |
 | class      |   object       |    true    | 高度必填  |
 | length     |   number       |    true    | 数据长度       |
@@ -77,7 +79,7 @@ export default {
 
 
 
-
+[better-scroll](https://github.com/XueMary/vue-load-scroll/blob/master/README_zh-CN.md)
 
 
 

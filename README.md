@@ -61,13 +61,15 @@ export default {
 ## Common events and parameters
 
 | event      |    type     | explain  |
-| :--------  | :--------:  |  :------------: |
+| :--------  | :--------:  |  :------------ |
 | downScroll |   function  | The drop-down triggers the event |
 | upScroll   |   function  | Pull up trigger event |
 
 
+
+
 | parameter  |    type        |  required  | explain  |
-| :--------  | :------------: | :--------: |  :------------: |
+| :--------  | :------------: | :--------: |  :------------ |
 | options    |   object       |    false   | initialization parameter.  Support for better-scroll all parameters and events  |
 | class      |   object       |    true    | Height must be defined  |
 | length     |   number       |    true    | Length of data          |
@@ -81,7 +83,7 @@ export default {
 
 
 
-
+[better-scroll](https://github.com/XueMary/vue-load-scroll/blob/master/README_zh-CN.md)
 
 
 
