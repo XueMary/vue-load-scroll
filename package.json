@@ -1,10 +1,31 @@
 {
   "name": "vue-load-scroll",
   "version": "0.1.0",
-  "private": true,
+  "author": "Xue jihong",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/MyScroll.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XueMary/vue-scroll.git"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "scroll"
+  ],
+  "bugs": {
+    "url": "https://github.com/XueMary/vue-scroll/issues"
+  },
+  "homepage": "https://github.com/XueMary/vue-scroll#readme",
+
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-bundle": "vue-cli-service build --target lib --name MyScroll ./src/components/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
