@@ -1,13 +1,12 @@
 <template>
   <div 
     ref="wrapper" 
-    class="scroll-warpper"
+    class='scroll-warpper'
   > 
     <div class="scroll-content">
       <div class="scroll-header" v-if="$listeners.downScroll">
         <Load 
         :load="headerLoad"
-        :bgColor="iconBgColor"
         :text="headerLoadText"
         :endText="headerLoadEndText"
         :startIcon="startIcon"
@@ -74,7 +73,6 @@ export default {
   },
   props: {
     length: propsHandle(null, Number, true),
-    iconBgColor: propsHandle("#42b983", String),
     startIcon: propsHandle(null, [String, Boolean]),
     loadIcon: propsHandle(null, [String, Array, Boolean]),
     loadText: propsHandle(["", "努力加载中"]),
@@ -228,14 +226,13 @@ export default {
 
 <style>
 .scroll-warpper {
-  height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
 .scroll-content {
   position: relative;
-  min-height: 100.1%;
+  min-height: 100.5%;
 }
 
 .scroll-content .scroll-upScroll {

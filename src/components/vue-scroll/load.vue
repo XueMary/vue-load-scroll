@@ -6,7 +6,7 @@
         <img :src="startIcon"/>
       </div>
       
-      <div v-else-if="startIcon !== false" class="scroll-com-content" :style="{background:bgColor}">
+      <div v-else-if="startIcon !== false" class="scroll-com-content">
         <i class="iconfont icon-reload"></i>
       </div>
     </div>
@@ -41,7 +41,6 @@ export default {
     load: propsHandle('idle'),
     text: propsHandle(),
     color: propsHandle('black'),
-    bgColor: propsHandle("#42b983"),
     startIcon: propsHandle(),
     loadIcon: propsHandle(),
     endText: propsHandle(),
@@ -63,6 +62,7 @@ export default {
   height: 30px;
   line-height: 30px;
   display: inline-block;
+  background: black;
 }
 
 .scroll-com-content .icon-reload {

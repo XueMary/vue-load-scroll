@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Scroll from '../components/vue-scroll'
+import Scroll from '../components/vue-scroll/index'
 export default {
   name: 'home',
   components:{

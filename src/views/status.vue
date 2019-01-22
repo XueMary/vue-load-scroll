@@ -2,7 +2,6 @@
   <div class="home">
     状态
     <Scroll 
-      class="xue-hei"
       @downScroll="scroll"
       @upScroll="scroll"
       :length='nais.length'
@@ -15,7 +14,7 @@
 </template>
 
 <script>
-import Scroll from '../components/vue-scroll'
+import Scroll from '../components/vue-scroll/index'
 export default {
   name: 'home',
   components:{
