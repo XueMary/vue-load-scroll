@@ -3,6 +3,9 @@
 Vue scroll component based on better-scroll
 
 
+[中文文档](https://github.com/XueMary/vue-load-scroll/blob/master/README_zh-CN.md)
+
+
 
 ## usage mode
 
