@@ -9,6 +9,7 @@
 npm i vue-classic-scroll
 
 import MyScroll from 'vue-classic-scroll'
+import 'vue-classic-scroll/dist/MyScroll.css';
 
 // Local or global registration
 ```

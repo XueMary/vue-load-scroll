@@ -1,9 +1,9 @@
 <template>
   <div v-show="load === 'start'" class="scroll-com-start">
-    <div v-if="loadIcon" class="scroll-com-load">
+
+    <div v-if="loadIcon" :class="{'scroll-com-load':!isGif}">
       <img :src="loadIcon"/>
     </div>
-
     <LoadIcon v-else-if="loadIcon !== false"/>
 
     <span class="scroll-com-load-text scroll-com-text">{{text}}</span>
@@ -26,6 +26,15 @@ export default {
     load: propsHandle('idle'),
     text: propsHandle(),
     loadIcon: propsHandle(),
+  },
+  computed:{
+    isGif(){
+      if(typeof this.loadIcon === 'string'){
+        var reg =/.gif$/i;
+        return reg.test(this.loadIcon)
+      }
+      return false
+    }
   }
 }
 </script>

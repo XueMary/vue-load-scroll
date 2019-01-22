@@ -2,6 +2,7 @@
   <div class="home">
     状态
     <Scroll 
+      class="xue-hei"
       @downScroll="scroll"
       @upScroll="scroll"
       :length='nais.length'
