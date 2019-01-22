@@ -3,6 +3,7 @@
     下拉加载
     <Scroll 
       class="xue-hei"
+      :length="nais.length"
       @downScroll="scroll"
     >
       <ul>
@@ -41,7 +42,7 @@ export default {
 </script>
 <style>
 .xue-hei{
-  height: 150px;
+  height: 500px;
 }
 </style>
 

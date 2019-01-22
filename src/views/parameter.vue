@@ -3,10 +3,10 @@
     参数更改
     <Scroll 
       class="xue-hei"
-      @upScroll="upScroll"
+      :length="nais.length"
       @downScroll="downScroll"
-      :iconColor="['red','blue']"
-      :iconBgColor="['black', 'red']"
+      loadEndText='加载完成'
+      iconBgColor="black"
       loadText="正在加载......"
     >
       <ul>
@@ -51,6 +51,6 @@ export default {
 </script>
 <style>
 .xue-hei{
-  height: 150px;
+  height: 500px;
 }
 </style>

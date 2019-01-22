@@ -23,12 +23,12 @@
           <div v-if="emptyIcon" class="scroll-emptyIcon">
             <img :src="emptyIcon"/>
           </div>
-          <p v-if="!isData">{{emptyText}}</p>
+          <p v-if="!isData && headerLoad !== 'start'">{{emptyText}}</p>
         </div>
         
       </div>
 
-      <div class="scroll-footer" v-if="$listeners.upScroll">
+      <div class="scroll-footer" v-if="$listeners.upScroll && isData">
         <Load 
           :load="footerLoad" 
           :text="footerLoadText"
@@ -45,7 +45,7 @@
 <script>
 import BScroll from "better-scroll";
 import Load from "./load";
-import LoadIcon from './loadIcon'
+import LoadIcon from "./loadIcon";
 let context = null;
 
 function watchHandle(name) {
@@ -79,9 +79,10 @@ export default {
     loadIcon: propsHandle(null, [String, Array, Boolean]),
     loadText: propsHandle(["", "努力加载中"]),
     loadEndText: propsHandle(null),
-    emptyText: propsHandle('暂无数据可用', String),
+    emptyText: propsHandle("暂无数据可用", String),
     emptyIcon: propsHandle(null, String),
     isEmpty: propsHandle(true, Boolean),
+    pageName: propsHandle(null, String),
     options: {
       type: Object,
       default: () => {
@@ -104,17 +105,25 @@ export default {
       footerLoadEndText: "",
 
       contentHeight: 0,
+
+      count: 1 // page count
     };
   },
   computed: {
-    isData () {
-      return this.length !== 0
+    isData() {
+      return this.length !== 0;
+    },
+    page() {
+      if (this.pageName) {
+        return count;
+      }
+      return false;
     }
   },
   watch: {
     loadIcon: watchHandle("LoadIcon"),
     loadText: watchHandle("LoadText"),
-    loadEndText: watchHandle("LoadEndText"),
+    loadEndText: watchHandle("LoadEndText")
   },
   methods: {
     // updata load icon url
@@ -164,7 +173,7 @@ export default {
       let time = 0;
       let load = type + "Load";
 
-      if (this[load + "Text"]) {
+      if (this[load + "EndText"]) {
         this[load] = "end";
         time = 500;
       }
@@ -179,7 +188,7 @@ export default {
         context.refresh();
         setTimeout(() => {
           this[load] = "idle";
-        }, time);
+        }, 500);
       }, time);
     },
     computContentHeight() {
@@ -197,6 +206,7 @@ export default {
       this.$emit("downScroll", end);
     },
     footerHandle() {
+      if (!this.isData) return;
       this.footerLoad = "start";
       let end = () => {
         this.loadEnd("footer");
@@ -209,7 +219,9 @@ export default {
     this.bindHandle();
     this.computContentHeight();
 
-    this.headerHandle()
+    if (!this.isData) {
+      context.autoPullDownRefresh();
+    }
   }
 };
 </script>
@@ -226,7 +238,7 @@ export default {
   min-height: 100.1%;
 }
 
-.scroll-content .scroll-upScroll{
+.scroll-content .scroll-upScroll {
   height: 10px;
 }
 
@@ -242,7 +254,7 @@ export default {
   height: 50px;
 }
 
-.scroll-emptyIcon img{
+.scroll-emptyIcon img {
   width: 30%;
   max-width: 200px;
 }

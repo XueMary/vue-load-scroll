@@ -4,8 +4,8 @@
     <Scroll 
       class="xue-hei"
       @downScroll="scroll"
+      @upScroll="scroll"
       :length='nais.length'
-      :emptyIcon="emptyIcon"
     >
       <ul>
         <li v-for="item in nais" :key="item">{{item}}</li>
@@ -31,10 +31,10 @@ export default {
     scroll(end){
       this.nais.length = 0
       setTimeout(()=>{
-        // for(let i= 0; i<100;i++)
-        // {
-        //   this.nais.push(i)
-        // }
+        for(let i= 0; i<100;i++)
+        {
+          this.nais.push(i)
+        }
         end() // 事件完成后调用
       },1000)
     }
