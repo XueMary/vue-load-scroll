@@ -4,14 +4,15 @@
   "author": "Xue jihong",
   "license": "MIT",
   "private": false,
-  "main": "dist/MyScroll.common.js",
+  "main": "lib/index.umd.js",
+  "unpkg": "lib/index.umd.min.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XueMary/vue-scroll.git"
+    "url": "git+https://github.com/XueMary/vue-load-scroll.git"
   },
   "files": [
-    "dist",
-    "src"
+    "src",
+    "lib"
   ],
   "keywords": [
     "vue",
@@ -19,14 +20,18 @@
     "classic"
   ],
   "bugs": {
-    "url": "https://github.com/XueMary/vue-scroll/issues"
+    "url": "https://github.com/XueMary/vue-load-scroll/issues"
   },
-  "homepage": "https://github.com/XueMary/vue-scroll#readme",
+  "homepage": "https://github.com/XueMary/vue-load-scroll#readme",
   "scripts": {
-    "build": "vue-cli-service build --target lib --name MyScroll ./src/vue-scroll/index.js"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name index --dest lib ./packs/vue-scroll/index.vue"
   },
   "dependencies": {
-    "better-scroll": "^1.14.1"
+    "better-scroll": "^1.14.1",
+    "vue": "^2.5.21"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
@@ -36,5 +41,29 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.5.21"
-  }
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

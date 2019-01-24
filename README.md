@@ -12,8 +12,8 @@ Vue scroll component based on better-scroll
 ```
 npm i vue-classic-scroll
 
-import MyScroll from 'vue-classic-scroll'
-import 'vue-classic-scroll/dist/MyScroll.css';
+import Scroll from 'vue-classic-scroll'
+import 'vue-classic-scroll/dist/index.css';
 
 // Local or global registration
 ```

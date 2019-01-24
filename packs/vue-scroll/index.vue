@@ -44,7 +44,6 @@
 <script>
 import BScroll from "better-scroll";
 import Load from "./load";
-import LoadIcon from "./loadIcon";
 let context = null;
 
 function watchHandle(name) {
@@ -67,9 +66,9 @@ function propsHandle(value, type, required) {
   return response;
 }
 export default {
+  name: 'Scroll',
   components: {
-    Load,
-    LoadIcon
+    Load
   },
   props: {
     length: propsHandle(null, Number, true),
@@ -104,19 +103,12 @@ export default {
 
       contentHeight: 0,
 
-      count: 1 // page count
     };
   },
   computed: {
     isData() {
       return this.length !== 0;
     },
-    page() {
-      if (this.pageName) {
-        return count;
-      }
-      return false;
-    }
   },
   watch: {
     loadIcon: watchHandle("LoadIcon"),
@@ -161,11 +153,8 @@ export default {
             threshold: 100
           }
         : false;
-
-      context = new BScroll(this.$refs.wrapper, {
-        ...contextOptions,
-        ...this.options
-      });
+      contextOptions = Object.assign(contextOptions, this.options)
+      context = new BScroll(this.$refs.wrapper, contextOptions);
     },
     loadEnd(type) {
       let time = 0;
