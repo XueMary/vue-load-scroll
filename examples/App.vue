@@ -8,7 +8,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import Scroll from '../dist/index.umd.js'
+import Scroll from '../lib/index.umd.js'
 // import Scroll from '../packs/vue-scroll/index.js'
 export default {
   name: 'app',
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style>
-@import url('../dist/index.css');
+@import url('../lib/index.css');
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
