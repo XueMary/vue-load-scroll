@@ -14,6 +14,21 @@ import 'vue-classic-scroll/dist/index.css';
 // Local or global registration
 ```
 
+### 注意
+
+非常抱歉，因本人对webpack并不熟悉，所以采用了vue-cli3工具进行打包，因工具原因请在 babel.config.js 文件中加入以下代码
+
+ babel.config.js
+ ```
+ module.exports = {
+  presets: [
+    '@vue/app'
+  ],
+    sourceType: 'unambiguous'   // 添加这句代码
+  }
+
+ ```
+
 
 ## 示例
 
@@ -82,4 +97,6 @@ export default {
 [better-scroll](https://github.com/XueMary/vue-load-scroll/blob/master/README_zh-CN.md)
 
 
+## versions
 
+0.1.5 first version

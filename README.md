@@ -19,6 +19,23 @@ import 'vue-classic-scroll/dist/index.css';
 ```
 
 
+### notice
+
+I am very sorry that I am not familiar with webpack, so I use vue-cli3 for packaging. For tool reasons, please add some code in the 
+ Let's add some code to our babel.config.js file
+
+ babel.config.js
+ ```
+ module.exports = {
+  presets: [
+    '@vue/app'
+  ],
+    sourceType: 'unambiguous'   // add this code
+  }
+
+ ```
+
+
 ## example
 
 ```<template>
@@ -86,4 +103,6 @@ export default {
 [better-scroll](https://github.com/XueMary/vue-load-scroll/blob/master/README_zh-CN.md)
 
 
+## versions
 
+0.1.5 first version
