@@ -34,7 +34,7 @@ import 'vue-classic-scroll/dist/index.css';
 
 ```<template>
   <div class="home">
-    <MyScroll 
+    <Scroll 
       class="xue-hei"
       :length="nais.length"
       @downScroll="scroll"
@@ -42,7 +42,7 @@ import 'vue-classic-scroll/dist/index.css';
       <ul>
         <li v-for="item in nais" :key="item">{{item}}</li>
       </ul>
-    </MyScroll>
+    </Scroll>
   </div>
 </template>
 

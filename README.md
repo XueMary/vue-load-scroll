@@ -40,7 +40,7 @@ I am very sorry that I am not familiar with webpack, so I use vue-cli3 for packa
 
 ```<template>
   <div class="home">
-    <MyScroll 
+    <Scroll 
       class="xue-hei"
       :length="nais.length"
       @downScroll="scroll"
@@ -48,7 +48,7 @@ I am very sorry that I am not familiar with webpack, so I use vue-cli3 for packa
       <ul>
         <li v-for="item in nais" :key="item">{{item}}</li>
       </ul>
-    </MyScroll>
+    </Scroll>
   </div>
 </template>
 
